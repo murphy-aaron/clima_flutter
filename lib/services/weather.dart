@@ -16,6 +16,18 @@ class WeatherModel {
     return weatherData;
   }
 
+  Future<dynamic> getCityWeather(String cityName) async {
+    Location location = Location();
+    await location.getCurrentLocation();
+
+    var uri = Uri.https(kApiUrl, kApiPath,
+        {'q': cityName, 'appid': '$kApiKey', 'units': 'imperial'});
+    NetworkHelper networkHelper = NetworkHelper(uri: uri);
+    var weatherData = await networkHelper.getData();
+
+    return weatherData;
+  }
+
   String getWeatherIcon(int condition) {
     if (condition < 300) {
       return '🌩';
